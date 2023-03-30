@@ -1,0 +1,3 @@
+D:/CG2023/cmake-build-debug/CMakeFiles/CG2023.dir
+D:/CG2023/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/CG2023/cmake-build-debug/CMakeFiles/rebuild_cache.dir
