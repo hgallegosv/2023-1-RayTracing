@@ -86,6 +86,12 @@
 		<Unit filename="D:/CG2023/Camara.h">
 			<Option target="CG2023"/>
 		</Unit>
+		<Unit filename="D:/CG2023/Luz.cpp">
+			<Option target="CG2023"/>
+		</Unit>
+		<Unit filename="D:/CG2023/Luz.h">
+			<Option target="CG2023"/>
+		</Unit>
 		<Unit filename="D:/CG2023/Objeto.cpp">
 			<Option target="CG2023"/>
 		</Unit>

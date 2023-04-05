@@ -19,6 +19,7 @@ public:
     vec3 cruz(vec3 v) { return vec3(y*v.z - v.y*z, v.x*z - x*v.z, x*v.y - v.x*y); }
     float punto(vec3 v) { return x*v.x + y*v.y + z*v.z; }
     vec3 operator+(vec3 v) { return vec3(x + v.x, y +v.y, z+v.z); }
+    vec3 operator*(vec3 v) { return vec3(x * v.x, y *v.y, z*v.z); }
     vec3 operator-(vec3 v) { return vec3(x - v.x, y -v.y, z-v.z); }
     vec3 operator*(float f) { return vec3(f*x, f*y, f*z); }
     vec3 operator/(float f) { return vec3(x/f, y/f, z/f); }
