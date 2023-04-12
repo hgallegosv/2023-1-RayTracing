@@ -20,7 +20,7 @@ class Camara {
 public:
     void configurar(float _near, float fov, int ancho, int alto,
                     vec3 pos_eye, vec3 center, vec3 up);
-    void renderizar();
+    void renderizar(int num=1);
 
 };
 

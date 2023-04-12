@@ -21,7 +21,7 @@ void Camara::configurar(float _near, float fov, int ancho, int alto,
     xe.normalize();
     ye = ze.cruz(xe);
 }
-void Camara::renderizar() {
+void Camara::renderizar(int num) {
     Rayo rayo;
     rayo.ori = eye;
     vec3 dir;
@@ -82,8 +82,10 @@ void Camara::renderizar() {
     }
     dis_img.render((*pImg));
     dis_img.paint();
-    while (!dis_img.is_closed()) {
+    string nombre_archivo = "imagen" + to_string(num) + ".bmp";
+    pImg->save(nombre_archivo.c_str());
+    /*while (!dis_img.is_closed()) {
         dis_img.wait();
-    }
+    }*/
 
 }
