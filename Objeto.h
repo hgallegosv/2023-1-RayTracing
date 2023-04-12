@@ -11,7 +11,7 @@ class Objeto {
 public:
     vec3 color;
     float kd;
-    Objeto(vec3 col):color{col}{}
+    Objeto(vec3 col, float kd=1):color{col}, kd{kd}{}
 
     //virtual bool intersectar(Rayo ray, float &t)=0;
     virtual bool intersectar(Rayo ray, float &t, vec3 &normal)=0;
@@ -22,7 +22,7 @@ public:
     vec3 centro;
     float radio;
 
-    Esfera(vec3 cen, float r, vec3 col): centro{cen}, radio{r}, Objeto(col) {}
+    Esfera(vec3 cen, float r, vec3 col, float kd=1): centro{cen}, radio{r}, Objeto(col, kd) {}
     bool intersectar(Rayo ray, float &t, vec3 &normal) {
         auto _a = ray.dir.punto(ray.dir);
         auto _b = 2*ray.dir.punto(ray.ori-centro);
