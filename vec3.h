@@ -21,6 +21,7 @@ public:
     vec3 operator+(vec3 v) { return vec3(x + v.x, y +v.y, z+v.z); }
     vec3 operator*(vec3 v) { return vec3(x * v.x, y *v.y, z*v.z); }
     vec3 operator-(vec3 v) { return vec3(x - v.x, y -v.y, z-v.z); }
+    vec3 operator-() { return vec3(-x,-y,-z); }
     vec3 operator*(float f) { return vec3(f*x, f*y, f*z); }
     vec3 operator/(float f) { return vec3(x/f, y/f, z/f); }
 
@@ -48,5 +49,6 @@ public:
     }
 };
 
+vec3 operator*(float f, vec3 v);
 
 #endif //CG2023_VEC3_H

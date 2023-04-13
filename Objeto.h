@@ -10,9 +10,10 @@
 class Objeto {
 public:
     vec3 color;
-    float kd;
+    float kd, ks, n;
     Objeto(vec3 col, float kd=1):color{col}, kd{kd}{}
 
+    void setConstantes(float kd=1, float ks=1, float n=8) {this->kd=kd; this->ks=ks; this->n = n;}
     //virtual bool intersectar(Rayo ray, float &t)=0;
     virtual bool intersectar(Rayo ray, float &t, vec3 &normal)=0;
 };
