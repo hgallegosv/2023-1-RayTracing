@@ -41,6 +41,25 @@ public:
 
     }
 };
-
+class Plano : public Objeto {
+public:
+    vec3 normal_plano;
+    float d;
+    Plano(vec3 normal, float dist, vec3 col): normal_plano(normal), Objeto(col) {
+        normal_plano.normalize();
+    }
+    bool intersectar(Rayo ray, float &t, vec3 &normal) {
+        float denominador = normal_plano.punto(ray.dir);
+        if (denominador != 0) {
+            t = -(normal_plano.punto(ray.ori) + d) / normal_plano.punto(ray.dir);
+            if (t < 0) {
+                return false;
+            }
+            normal = normal_plano;
+            return true;
+        }
+        return false;
+    }
+};
 
 #endif //CG2023_OBJETO_H

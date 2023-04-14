@@ -134,17 +134,9 @@ D:/workspace/CG2023/2023-1-RayTracing/CImg.h
 Objeto.h
 D:/workspace/CG2023/2023-1-RayTracing/Objeto.h
 
-D:/workspace/CG2023/2023-1-RayTracing/Luz.cpp
-Luz.h
-D:/workspace/CG2023/2023-1-RayTracing/Luz.h
-
 D:/workspace/CG2023/2023-1-RayTracing/Luz.h
 vec3.h
 D:/workspace/CG2023/2023-1-RayTracing/vec3.h
-
-D:/workspace/CG2023/2023-1-RayTracing/Objeto.cpp
-Objeto.h
-D:/workspace/CG2023/2023-1-RayTracing/Objeto.h
 
 D:/workspace/CG2023/2023-1-RayTracing/Objeto.h
 vec3.h
@@ -152,21 +144,7 @@ D:/workspace/CG2023/2023-1-RayTracing/vec3.h
 Rayo.h
 D:/workspace/CG2023/2023-1-RayTracing/Rayo.h
 
-D:/workspace/CG2023/2023-1-RayTracing/Rayo.cpp
-Rayo.h
 D:/workspace/CG2023/2023-1-RayTracing/Rayo.h
-
-D:/workspace/CG2023/2023-1-RayTracing/Rayo.h
-vec3.h
-D:/workspace/CG2023/2023-1-RayTracing/vec3.h
-
-D:/workspace/CG2023/2023-1-RayTracing/main.cpp
-iostream
--
-Camara.h
-D:/workspace/CG2023/2023-1-RayTracing/Camara.h
-
-D:/workspace/CG2023/2023-1-RayTracing/vec3.cpp
 vec3.h
 D:/workspace/CG2023/2023-1-RayTracing/vec3.h
 
