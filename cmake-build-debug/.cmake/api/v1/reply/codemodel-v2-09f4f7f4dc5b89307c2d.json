@@ -6,7 +6,6 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.19"
@@ -39,7 +38,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "CG2023::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-CG2023-Debug-702347a3417c095547fa.json",
+					"jsonFile" : "target-CG2023-Debug-ca32f7a293b03eefadb0.json",
 					"name" : "CG2023",
 					"projectIndex" : 0
 				}
@@ -49,12 +48,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/CG2023/cmake-build-debug",
-		"source" : "D:/CG2023"
+		"build" : "D:/workspace/CG2023/2023-1-RayTracing/cmake-build-debug",
+		"source" : "D:/workspace/CG2023/2023-1-RayTracing"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 2
 	}
 }

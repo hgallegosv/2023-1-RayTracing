@@ -73,21 +73,34 @@ void Camara::renderizar(int num) {
                 vec3 pi = rayo.ori + rayo.dir * t;
                 vec3 L = luz.pos - pi;
                 L.normalize();
-                vec3 luz_ambiente = vec3(1,1,1) * 0.2;
+                vec3 luz_ambiente = vec3(1, 1, 1) * 0.2;
+                // evaluar si hay sombra
+                bool esta_sombra = false;
+                Rayo rayo_sombra;
+                rayo_sombra.ori = pi;
+                rayo_sombra.dir = L;
+                for(auto pObj : objetos) {
+                    if ( pObj->intersectar(rayo_sombra, t_tmp, normal_tmp)) {
+                        esta_sombra = true;
+                    }
+                }
+                if (!esta_sombra) {
+                    vec3 luz_difusa = vec3(0, 0, 0);
+                    float factor_difuso = normal.punto(L);
+                    if (factor_difuso > 0)
+                        luz_difusa = luz.color * pObjeto->kd * factor_difuso;
 
-                vec3 luz_difusa = vec3(0,0,0);
-                float factor_difuso = normal.punto(L);
-                if (factor_difuso > 0)
-                    luz_difusa = luz.color * pObjeto->kd * factor_difuso;
-
-                vec3 luz_especular = vec3(0,0,0);
-                vec3 R = 2 * (L.punto(normal)) * normal - L;
-                vec3 V = -rayo.dir;
-                float factor_especular = R.punto(V);
-                if (factor_especular > 0)
-                    luz_especular = luz.color * pObjeto->ks * pow(factor_especular, pObjeto->n);
-                color = pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
-                color.max_to_one();
+                    vec3 luz_especular = vec3(0, 0, 0);
+                    vec3 R = 2 * (L.punto(normal)) * normal - L;
+                    vec3 V = -rayo.dir;
+                    float factor_especular = R.punto(V);
+                    if (factor_especular > 0)
+                        luz_especular = luz.color * pObjeto->ks * pow(factor_especular, pObjeto->n);
+                    color = pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
+                    color.max_to_one();
+                } else {
+                    color = pObjeto->color * (luz_ambiente);
+                }
             }
             (*pImg)(x,h-1-y,0) = (BYTE)(color.x * 255);
             (*pImg)(x,h-1-y,1) = (BYTE)(color.y * 255);
