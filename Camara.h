@@ -21,7 +21,7 @@ class Camara {
     CImg<BYTE> *pImg;
     int prof_max;
 public:
-    Camara() { prof_max = 3; }
+    Camara() { prof_max = 7; }
     void configurar(float _near, float fov, int ancho, int alto,
                     vec3 pos_eye, vec3 center, vec3 up);
     void renderizar(int num=1);

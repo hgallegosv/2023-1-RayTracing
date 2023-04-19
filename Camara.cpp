@@ -40,9 +40,11 @@ void Camara::renderizar(int num) {
     objetos.emplace_back(p1);
     p1 = new Esfera(vec3(-10,-10,-10), 8, vec3(0,1,0));
     p1->setConstantes(0.8, 0.2);
+    p1->ke = 0.9;
     objetos.emplace_back(p1);
     p1 = new Esfera(vec3(0,10,0), 8, vec3(1,0,0));
     p1->setConstantes(0.6, 0.4, 32);
+    p1->ke = 0.8;
     objetos.emplace_back(p1);
 
     p1 = new Plano(vec3(0,1,0), 1, vec3(0.123, 0.456, 0.789));
@@ -129,7 +131,7 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
                 rayo_reflexivo.ori = pi + 0.0005 * normal;
                 rayo_reflexivo.dir = 2 * (V.punto(normal)) * normal - V;
                 vec3 color_reflexivo = calcular_color(rayo_reflexivo, objetos, luces, prof + 1);
-                color = color + color_reflexivo;
+                color = color + pObjeto->ke * color_reflexivo;
             }
             color.max_to_one();
         } else {
