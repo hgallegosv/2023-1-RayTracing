@@ -3,8 +3,7 @@
 //
 
 #include "Camara.h"
-#include "Luz.h"
-#include <vector>
+
 
 using namespace std;
 void Camara::configurar(float _near, float fov, int ancho, int alto,
@@ -37,6 +36,7 @@ void Camara::renderizar(int num) {
     Objeto *p1;
     p1 = new Esfera(vec3(10,0,0), 8, vec3(0,0,1));
     p1->setConstantes(1, 0);
+    p1->ke = 1;
     objetos.emplace_back(p1);
     p1 = new Esfera(vec3(-10,-10,-10), 8, vec3(0,1,0));
     p1->setConstantes(0.8, 0.2);
@@ -47,65 +47,22 @@ void Camara::renderizar(int num) {
 
     p1 = new Plano(vec3(0,1,0), 1, vec3(0.123, 0.456, 0.789));
     p1->setConstantes(0.9, 0.1);
+    p1->ke = 0.5;
     objetos.emplace_back(p1);
 
+    vector<Luz*> luces;
     Luz luz(vec3(30,30,30), vec3(1,1,1));
+    luces.emplace_back(&luz);
 
-    bool hay_interseccion;
-    float t, t_tmp;
-    vec3 color, normal, normal_tmp;
-    Objeto *pObjeto = nullptr;
+    vec3 color;
     for(int x=0;  x < w; x++) {
         for (int y = 0; y < h; y++) {
             dir = ze * (-f) + ye * a * (y / h - 0.5) + xe * b * (x / w - 0.5);
             dir.normalize();
             rayo.dir = dir;
-            color.set(0,0,0);
-            hay_interseccion = false;
-            t = 1000000000;
-            for(auto pObj : objetos) {
-                if ( pObj->intersectar(rayo, t_tmp, normal_tmp)) {
-                    hay_interseccion = true;
-                    if (t_tmp < t) {
-                        t = t_tmp;
-                        normal = normal_tmp;
-                        pObjeto = pObj;
-                    }
-                }
-            }
-            if ( hay_interseccion ) {
-                vec3 pi = rayo.ori + rayo.dir * t;
-                vec3 L = luz.pos - pi;
-                L.normalize();
-                vec3 luz_ambiente = vec3(1, 1, 1) * 0.2;
-                // evaluar si hay sombra
-                bool esta_sombra = false;
-                Rayo rayo_sombra;
-                rayo_sombra.ori = pi + 0.0005*normal;
-                rayo_sombra.dir = L;
-                for(auto pObj : objetos) {
-                    if ( pObj->intersectar(rayo_sombra, t_tmp, normal_tmp)) {
-                        esta_sombra = true;
-                    }
-                }
-                if (!esta_sombra) {
-                    vec3 luz_difusa = vec3(0, 0, 0);
-                    float factor_difuso = normal.punto(L);
-                    if (factor_difuso > 0)
-                        luz_difusa = luz.color * pObjeto->kd * factor_difuso;
 
-                    vec3 luz_especular = vec3(0, 0, 0);
-                    vec3 R = 2 * (L.punto(normal)) * normal - L;
-                    vec3 V = -rayo.dir;
-                    float factor_especular = R.punto(V);
-                    if (factor_especular > 0)
-                        luz_especular = luz.color * pObjeto->ks * pow(factor_especular, pObjeto->n);
-                    color = pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
-                    color.max_to_one();
-                } else {
-                    color = pObjeto->color * (luz_ambiente);
-                }
-            }
+            color = calcular_color(rayo, objetos, luces, 1);
+
             (*pImg)(x,h-1-y,0) = (BYTE)(color.x * 255);
             (*pImg)(x,h-1-y,1) = (BYTE)(color.y * 255);
             (*pImg)(x,h-1-y,2) = (BYTE)(color.z * 255);
@@ -119,4 +76,65 @@ void Camara::renderizar(int num) {
         dis_img.wait();
     }*/
 
+}
+
+vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luces, int prof) {
+    vec3 color(0,0,0); // color de fondo;
+    vec3 normal, normal_tmp;
+    Objeto *pObjeto;
+    bool hay_interseccion = false;
+    float t_tmp, t = 1000000000;
+    for(auto pObj : objetos) {
+        if ( pObj->intersectar(rayo, t_tmp, normal_tmp)) {
+            hay_interseccion = true;
+            if (t_tmp < t) {
+                t = t_tmp;
+                normal = normal_tmp;
+                pObjeto = pObj;
+            }
+        }
+    }
+    if ( hay_interseccion ) {
+        vec3 pi = rayo.ori + rayo.dir * t;
+        vec3 L = luces[0]->pos - pi;
+        L.normalize();
+        vec3 luz_ambiente = vec3(1, 1, 1) * 0.2;
+        // evaluar si hay sombra
+        bool esta_sombra = false;
+        Rayo rayo_sombra;
+        rayo_sombra.ori = pi + 0.0005*normal;
+        rayo_sombra.dir = L;
+        for(auto pObj : objetos) {
+            if ( pObj->intersectar(rayo_sombra, t_tmp, normal_tmp)) {
+                esta_sombra = true;
+            }
+        }
+        if (!esta_sombra) {
+            vec3 luz_difusa = vec3(0, 0, 0);
+            float factor_difuso = normal.punto(L);
+            if (factor_difuso > 0)
+                luz_difusa = luces[0]->color * pObjeto->kd * factor_difuso;
+
+            vec3 luz_especular = vec3(0, 0, 0);
+            vec3 R = 2 * (L.punto(normal)) * normal - L;
+            vec3 V = -rayo.dir;
+            float factor_especular = R.punto(V);
+            if (factor_especular > 0)
+                luz_especular = luces[0]->color * pObjeto->ks * pow(factor_especular, pObjeto->n);
+
+            color = pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
+            if (pObjeto->ke > 0 and  prof + 1 <= prof_max) {
+                // rayos reflexivos
+                Rayo rayo_reflexivo;
+                rayo_reflexivo.ori = pi + 0.0005 * normal;
+                rayo_reflexivo.dir = 2 * (V.punto(normal)) * normal - V;
+                vec3 color_reflexivo = calcular_color(rayo_reflexivo, objetos, luces, prof + 1);
+                color = color + color_reflexivo;
+            }
+            color.max_to_one();
+        } else {
+            color = pObjeto->color * (luz_ambiente);
+        }
+    }
+    return color;
 }

@@ -11,7 +11,19 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/workspace/CG2023/2023-1-RayTracing/cmake-build-debug"
+			"value" : "D:/CG2023/cmake-build-debug"
+		},
+		{
+			"name" : "CG2023_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
 		},
 		{
 			"name" : "CG2023_SOURCE_DIR",
@@ -23,7 +35,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/workspace/CG2023/2023-1-RayTracing"
+			"value" : "D:/CG2023"
 		},
 		{
 			"name" : "CMAKE_ADDR2LINE",
@@ -79,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "d:/workspace/CG2023/2023-1-RayTracing/cmake-build-debug"
+			"value" : "d:/CG2023/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -103,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "20"
+			"value" : "25"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -154,16 +166,12 @@
 			"value" : ""
 		},
 		{
-			"name" : "CMAKE_COLOR_MAKEFILE",
+			"name" : "CMAKE_COLOR_DIAGNOSTICS",
 			"properties" : 
 			[
 				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
 					"name" : "HELPSTRING",
-					"value" : "Enable/Disable color output during build."
+					"value" : "Enable colored diagnostics throughout."
 				}
 			],
 			"type" : "BOOL",
@@ -179,7 +187,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/AplicacionesPortables/CLion-2021.2.3.win/bin/cmake/win/bin/cmake.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2023.1/bin/cmake/win/x64/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -191,7 +199,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/AplicacionesPortables/CLion-2021.2.3.win/bin/cmake/win/bin/cpack.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2023.1/bin/cmake/win/x64/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -203,7 +211,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/AplicacionesPortables/CLion-2021.2.3.win/bin/cmake/win/bin/ctest.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2023.1/bin/cmake/win/x64/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -219,7 +227,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW/bin/g++.exe"
+			"value" : "C:/MinGW/bin/c++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -494,18 +502,6 @@
 			"value" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32"
 		},
 		{
-			"name" : "CMAKE_DEPENDS_USE_COMPILER",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
-				}
-			],
-			"type" : "UNINITIALIZED",
-			"value" : "FALSE"
-		},
-		{
 			"name" : "CMAKE_DLLTOOL",
 			"properties" : 
 			[
@@ -674,6 +670,18 @@
 			"value" : "c:\\mingw\\bin\\../lib/gcc/mingw32/9.2.0/include;c:\\mingw\\bin\\../lib/gcc/mingw32/9.2.0/../../../../include;c:\\mingw\\bin\\../lib/gcc/mingw32/9.2.0/include-fixed"
 		},
 		{
+			"name" : "CMAKE_FIND_PACKAGE_REDIRECTS_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake."
+				}
+			],
+			"type" : "STATIC",
+			"value" : "D:/CG2023/cmake-build-debug/CMakeFiles/pkgRedirects"
+		},
+		{
 			"name" : "CMAKE_GENERATOR",
 			"properties" : 
 			[
@@ -743,7 +751,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/workspace/CG2023/2023-1-RayTracing"
+			"value" : "D:/CG2023"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1127,7 +1135,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/AplicacionesPortables/CLion-2021.2.3.win/bin/cmake/win/share/cmake-3.20"
+			"value" : "C:/Program Files/JetBrains/CLion 2023.1/bin/cmake/win/x64/share/cmake-3.25"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1352,6 +1360,18 @@
 			],
 			"type" : "BOOL",
 			"value" : "FALSE"
+		},
+		{
+			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "linker supports push/pop state"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "TRUE"
 		}
 	],
 	"kind" : "cache",

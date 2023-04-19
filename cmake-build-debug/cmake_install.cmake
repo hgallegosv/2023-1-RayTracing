@@ -1,4 +1,4 @@
-# Install script for directory: D:/workspace/CG2023/2023-1-RayTracing
+# Install script for directory: D:/CG2023
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/workspace/CG2023/2023-1-RayTracing/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/CG2023/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
