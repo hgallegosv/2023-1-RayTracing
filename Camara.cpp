@@ -49,7 +49,7 @@ void Camara::renderizar(int num) {
 
     p1 = new Plano(vec3(0,1,0), 1, vec3(0.123, 0.456, 0.789));
     p1->setConstantes(0.9, 0.1);
-    p1->ke = 0.5;
+    p1->ke = 0.1;
     objetos.emplace_back(p1);
 
     vector<Luz*> luces;
