@@ -52,7 +52,7 @@ public:
     bool intersectar(Rayo ray, float &t, vec3 &normal) {
         float denominador = normal_plano.punto(ray.dir);
         if (denominador != 0) {
-            t = -(normal_plano.punto(ray.ori) + d) / normal_plano.punto(ray.dir);
+            t = (normal_plano*d - ray.ori).punto(normal_plano) / denominador;
             if (t < 0) {
                 return false;
             }
@@ -63,4 +63,12 @@ public:
     }
 };
 
+class Cilindro: public Objeto{
+public:
+    vec3 pa, pb;
+    float ra;
+    Cilindro(vec3 _pa, vec3 _pb, float _ra, vec3 _color):
+    pa{_pa}, pb{_pb}, ra{_ra}, Objeto(_color){}
+    bool intersectar(Rayo rayo, float &t, vec3 &normal);
+};
 #endif //CG2023_OBJETO_H

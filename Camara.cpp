@@ -38,7 +38,7 @@ void Camara::renderizar(int num) {
     p1->setConstantes(1, 0);
     p1->ke = 1;
     objetos.emplace_back(p1);
-    p1 = new Esfera(vec3(-10,-10,-10), 8, vec3(0,1,0));
+    p1 = new Esfera(vec3(-10,0,-10), 8, vec3(0,1,0));
     p1->setConstantes(0.8, 0.2);
     p1->ke = 0.9;
     objetos.emplace_back(p1);
@@ -52,9 +52,13 @@ void Camara::renderizar(int num) {
     p1->ke = 0.1;
     objetos.emplace_back(p1);
 
+    p1 = new Cilindro(vec3(-20,0,0), vec3(-10,10,0),5, vec3(0,1,1));
+    p1->setConstantes(0.7,0.3,8);
+    objetos.emplace_back(p1);
     vector<Luz*> luces;
     Luz luz(vec3(30,30,30), vec3(1,1,1));
     luces.emplace_back(&luz);
+
 
     vec3 color;
     for(int x=0;  x < w; x++) {
