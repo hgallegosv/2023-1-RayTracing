@@ -27,7 +27,8 @@ public:
     void renderizar(int num=1);
 
     vec3 calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luces, int prof);
-
+    vec3 refract(vec3 &I, vec3 &N, float &ior);
+    void fresnel(vec3 &I, vec3 &N, float &ior, float &kr);
 };
 
 

@@ -52,7 +52,7 @@ public:
         }
     }
 };
-
+float clamp(float menor, float mayor, float valor);
 vec3 operator*(float f, vec3 v);
 
 #endif //CG2023_VEC3_H
