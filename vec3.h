@@ -13,7 +13,7 @@ template <typename T> int sgn(T val) {
 class vec3 {
 public:
     float x, y, z;
-    vec3() {}
+    vec3() { x=0; y=0; z=0; }
     void set(float _x, float _y, float _z) {
         x = _x;
         y = _y;

@@ -44,7 +44,7 @@ void Camara::renderizar(int num) {
     p1->es_transparente = true;
     p1->ior=1.5;
     objetos.emplace_back(p1);
-    p1 = new Esfera(vec3(0,10,0), 8, vec3(0,0,0));
+    p1 = new Esfera(vec3(0,10,0), 8, vec3(1,0,0));
     p1->setConstantes(0.6, 0.4, 32);
     p1->ke = 0.8;
     p1->es_transparente = false;
@@ -106,19 +106,57 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
     }
     if ( hay_interseccion ) {
         vec3 pi = rayo.ori + rayo.dir * t;
+        vec3 V = -rayo.dir;
+        if (pObjeto->es_transparente) {
+            // kr kt
+            vec3 refractionColor(0,0,0);
+            // compute fresnel
+            float kr;
+            fresnel(rayo.dir, normal, pObjeto->ior, kr);
+            bool outside = rayo.dir.punto(normal) < 0;
+            vec3 bias = 0.0005 * normal;
+            // compute refraction if it is not a case of total internal reflection
+            if (kr < 1) {
+                vec3 refractionDirection = refract(rayo.dir, normal, pObjeto->ior);
+                refractionDirection.normalize();
+                vec3 refractionRayOrig = outside ? pi - bias : pi + bias;
+                Rayo rayo_refraccion(refractionRayOrig, refractionDirection);
+                refractionColor = calcular_color(rayo_refraccion, objetos, luces, prof + 1);
+            }
+
+            vec3 reflectionDirection = 2 * (V.punto(normal)) * normal - V;// reflect(dir, normal).normalize();
+            reflectionDirection.normalize();
+            vec3 reflectionRayOrig = outside ? pi + bias : pi - bias;
+            Rayo rayo_reflexivo(reflectionRayOrig, reflectionDirection);
+            vec3 reflectionColor = calcular_color(rayo_reflexivo, objetos, luces, prof + 1);
+
+            // mix the two
+            color = reflectionColor * kr + refractionColor * (1 - kr);
+        } else {
+            if (pObjeto->ke > 0 and  prof + 1 <= prof_max) {
+                // rayos reflexivos
+                Rayo rayo_reflexivo;
+                rayo_reflexivo.ori = pi + 0.0005 * normal;
+                rayo_reflexivo.dir = 2 * (V.punto(normal)) * normal - V;
+                rayo_reflexivo.dir.normalize();
+                vec3 color_reflexivo = calcular_color(rayo_reflexivo, objetos, luces, prof + 1);
+                color = pObjeto->ke * color_reflexivo;
+            }
+        }
+
+
         vec3 L = luces[0]->pos - pi;
         L.normalize();
         vec3 luz_ambiente = vec3(1, 1, 1) * 0.2;
         // evaluar si hay sombra
         bool esta_sombra = false;
-        Rayo rayo_sombra;
-        rayo_sombra.ori = pi + 0.0005*normal;
-        rayo_sombra.dir = L;
+        Rayo rayo_sombra(pi + 0.0005*normal, L);
         for(auto pObj : objetos) {
             if ( pObj->intersectar(rayo_sombra, t_tmp, normal_tmp)) {
                 esta_sombra = true;
             }
         }
+
         if (!esta_sombra) {
             vec3 luz_difusa = vec3(0, 0, 0);
             float factor_difuso = normal.punto(L);
@@ -127,53 +165,13 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
 
             vec3 luz_especular = vec3(0, 0, 0);
             vec3 R = 2 * (L.punto(normal)) * normal - L;
-            vec3 V = -rayo.dir;
             float factor_especular = R.punto(V);
             if (factor_especular > 0)
                 luz_especular = luces[0]->color * pObjeto->ks * pow(factor_especular, pObjeto->n);
-            color = pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
-
-            if (pObjeto->es_transparente) {
-                // kr kt
-                vec3 refractionColor(0,0,0);
-                // compute fresnel
-                float kr;
-                fresnel(rayo.dir, normal, pObjeto->ior, kr);
-                bool outside = rayo.dir.punto(normal) < 0;
-                vec3 bias = 0.0005 * normal;
-                // compute refraction if it is not a case of total internal reflection
-                if (kr < 1) {
-                    vec3 refractionDirection = refract(rayo.dir, normal, pObjeto->ior);
-                    refractionDirection.normalize();
-                    vec3 refractionRayOrig = outside ? pi - bias : pi + bias;
-                    Rayo rayo_refraccion(refractionRayOrig, refractionDirection);
-                    refractionColor = calcular_color(rayo_refraccion, objetos, luces, prof + 1);
-                }
-
-                vec3 reflectionDirection = 2 * (V.punto(normal)) * normal - V;// reflect(dir, normal).normalize();
-                reflectionDirection.normalize();
-                vec3 reflectionRayOrig = outside ? pi + bias : pi - bias;
-                Rayo rayo_reflexivo;
-                rayo_reflexivo.ori = reflectionRayOrig;
-                rayo_reflexivo.dir = reflectionDirection;
-                vec3 reflectionColor = calcular_color(rayo_reflexivo, objetos, luces, prof + 1);
-
-                // mix the two
-                color = color + reflectionColor * kr + refractionColor * (1 - kr);
-            } else {
-                if (pObjeto->ke > 0 and  prof + 1 <= prof_max) {
-                    // rayos reflexivos
-                    Rayo rayo_reflexivo;
-                    rayo_reflexivo.ori = pi + 0.0005 * normal;
-                    rayo_reflexivo.dir = 2 * (V.punto(normal)) * normal - V;
-                    rayo_reflexivo.dir.normalize();
-                    vec3 color_reflexivo = calcular_color(rayo_reflexivo, objetos, luces, prof + 1);
-                    color = color + pObjeto->ke * color_reflexivo;
-                }
-            }
+            color = color + pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
             color.max_to_one();
         } else {
-            color = pObjeto->color * (luz_ambiente);
+            color = color + pObjeto->color * (luz_ambiente);
         }
     }
     return color;
@@ -210,4 +208,29 @@ void Camara::fresnel(vec3 &I, vec3 &N, float &ior, float &kr)
     }
     // As a consequence of the conservation of energy, the transmittance is given by:
     // kt = 1 - kr;
+}
+void Camara::renderizar(vector<Objeto*> &objetos, vector<Luz*> &luces, int num) {
+    pImg = new CImg<BYTE>(w, h, 1, 10);
+    CImgDisplay dis_img((*pImg), "Imagen RayTracing en Perspectiva desde una Camara Pinhole");
+    Rayo rayo(eye);
+    vec3 color, dir;
+    for(int x=0;  x < w; x++) {
+        for (int y = 0; y < h; y++) {
+            dir = ze * (-f) + ye * a * (y / h - 0.5) + xe * b * (x / w - 0.5);
+            dir.normalize();
+            rayo.dir = dir;
+            color = calcular_color(rayo, objetos, luces, 1);
+
+            (*pImg)(x,h-1-y,0) = (BYTE)(color.x * 255);
+            (*pImg)(x,h-1-y,1) = (BYTE)(color.y * 255);
+            (*pImg)(x,h-1-y,2) = (BYTE)(color.z * 255);
+        }
+    }
+    dis_img.render((*pImg));
+    dis_img.paint();
+    string nombre_archivo = "imagen" + to_string(num) + ".bmp";
+    pImg->save(nombre_archivo.c_str());
+    /*while (!dis_img.is_closed()) {
+        dis_img.wait();
+    }*/
 }

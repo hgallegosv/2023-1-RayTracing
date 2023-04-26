@@ -25,6 +25,7 @@ public:
     void configurar(float _near, float fov, int ancho, int alto,
                     vec3 pos_eye, vec3 center, vec3 up);
     void renderizar(int num=1);
+    void renderizar(vector<Objeto*> &objetos, vector<Luz*> &luces, int num=1);
 
     vec3 calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luces, int prof);
     vec3 refract(vec3 &I, vec3 &N, float &ior);
