@@ -3,7 +3,7 @@
 //
 
 #include "Camara.h"
-
+#include <iostream>
 
 using namespace std;
 void Camara::configurar(float _near, float fov, int ancho, int alto,
@@ -104,7 +104,9 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
             }
         }
     }
-    if ( hay_interseccion ) {
+    if (hay_interseccion and pObjeto->es_luz){
+        color = pObjeto->color;
+    } else if ( hay_interseccion ) {
         vec3 pi = rayo.ori + rayo.dir * t;
         vec3 V = -rayo.dir;
         if (pObjeto->es_transparente) {
@@ -144,15 +146,16 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
             }
         }
 
-
         vec3 L = luces[0]->pos - pi;
+        float distancia = L.modulo();
         L.normalize();
         vec3 luz_ambiente = vec3(1, 1, 1) * 0.2;
         // evaluar si hay sombra
         bool esta_sombra = false;
         Rayo rayo_sombra(pi + 0.0005*normal, L);
         for(auto pObj : objetos) {
-            if ( pObj->intersectar(rayo_sombra, t_tmp, normal_tmp)) {
+            if ( (not pObj->es_luz) and (not pObj->es_transparente) and
+            pObj->intersectar(rayo_sombra, t_tmp, normal_tmp) and t_tmp < distancia) {
                 esta_sombra = true;
             }
         }
@@ -172,6 +175,7 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
             color.max_to_one();
         } else {
             color = color + pObjeto->color * (luz_ambiente);
+            color.max_to_one();
         }
     }
     return color;
@@ -216,6 +220,9 @@ void Camara::renderizar(vector<Objeto*> &objetos, vector<Luz*> &luces, int num) 
     vec3 color, dir;
     for(int x=0;  x < w; x++) {
         for (int y = 0; y < h; y++) {
+            if (x==190 and y==h-398) {
+                std:cout<<"stop";
+            }
             dir = ze * (-f) + ye * a * (y / h - 0.5) + xe * b * (x / w - 0.5);
             dir.normalize();
             rayo.dir = dir;

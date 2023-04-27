@@ -14,9 +14,15 @@ public:
     float ke;  // constante de espejo
     bool es_transparente;
     float ior; // index of refraction
-    Objeto(vec3 col, float kd=1):color{col}, kd{kd}{ ke = 0; es_transparente=false; ior=1; }
+    bool es_luz;
+    Objeto(vec3 col, float kd=1):color{col}, kd{kd}{
+        ke = 0; es_transparente=false; ior=1;
+        es_luz = 0;
+    }
 
-    void setConstantes(float kd=1, float ks=1, float n=8) {this->kd=kd; this->ks=ks; this->n = n;}
+    void setConstantes(float kd=1, float ks=1, float n=8) {
+        this->kd=kd; this->ks=ks; this->n = n;
+    }
     //virtual bool intersectar(Rayo ray, float &t)=0;
     virtual bool intersectar(Rayo ray, float &t, vec3 &normal)=0;
 };

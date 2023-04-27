@@ -211,7 +211,28 @@ CMakeFiles/CG2023.dir/Camara.cpp.obj: D:/CG2023/Camara.cpp \
   C:/MinGW/include/process.h \
   C:/MinGW/include/io.h \
   D:/CG2023/Objeto.h \
-  D:/CG2023/Luz.h
+  D:/CG2023/Luz.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/iostream \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ostream \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ios \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/ios_base.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/locale_classes.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/locale_classes.tcc \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/system_error \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/error_constants.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/streambuf \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/streambuf.tcc \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_ios.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/locale_facets.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/cwctype \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/ctype_base.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/streambuf_iterator.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/ctype_inline.h \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/locale_facets.tcc \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_ios.tcc \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/ostream.tcc \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/istream \
+  C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/istream.tcc
 
 CMakeFiles/CG2023.dir/Luz.cpp.obj: D:/CG2023/Luz.cpp \
   D:/CG2023/Luz.h \
@@ -1067,12 +1088,6 @@ D:/CG2023/Objeto.h:
 
 D:/CG2023/Luz.h:
 
-D:/CG2023/Luz.cpp:
-
-D:/CG2023/Objeto.cpp:
-
-D:/CG2023/Rayo.cpp:
-
 C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ostream:
 
 C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ios:
@@ -1102,3 +1117,9 @@ C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/ostream.tcc:
 C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/istream:
 
 C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/istream.tcc:
+
+D:/CG2023/Luz.cpp:
+
+D:/CG2023/Objeto.cpp:
+
+D:/CG2023/Rayo.cpp:
