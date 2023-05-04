@@ -91,9 +91,9 @@ void Camara::renderizar(int num) {
 vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luces, int prof) {
     vec3 color(0,0,0); // color de fondo;
     vec3 normal, normal_tmp;
-    Objeto *pObjeto;
+    Objeto *pObjeto = nullptr;
     bool hay_interseccion = false;
-    float t_tmp, t = 1000000000;
+    float t_tmp, t = FLT_MAX;
     for(auto pObj : objetos) {
         if ( pObj->intersectar(rayo, t_tmp, normal_tmp)) {
             hay_interseccion = true;
@@ -103,6 +103,9 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
                 pObjeto = pObj;
             }
         }
+    }
+    if (pObjeto == nullptr) {
+        return color;
     }
     if (hay_interseccion and pObjeto->es_luz){
         color = pObjeto->color;
@@ -171,10 +174,24 @@ vec3 Camara::calcular_color(Rayo rayo, vector<Objeto*> objetos, vector<Luz*> luc
             float factor_especular = R.punto(V);
             if (factor_especular > 0)
                 luz_especular = luces[0]->color * pObjeto->ks * pow(factor_especular, pObjeto->n);
-            color = color + pObjeto->color * (luz_ambiente + luz_difusa + luz_especular);
+            color = color + pObjeto->color * (luz_ambiente + luz_difusa + luz_especular );
             color.max_to_one();
         } else {
             color = color + pObjeto->color * (luz_ambiente);
+            color.max_to_one();
+        }
+        // path tracing
+        // direccion
+        if (prof + 1 <= prof_max) {
+            vec3 colorpt_total(0,0,0);
+            for(int i=0; i < 1; i++) {
+                vec3 dirpt(rand()%200/100 - 1,rand()%200/100 - 1, rand()%200/100 - 1);
+                dirpt.normalize();
+                Rayo rayopt(pi + 0.005*normal, dirpt);
+                vec3 colorpt = calcular_color(rayopt, objetos, luces, prof + 3);
+                colorpt_total = colorpt_total + colorpt;
+            }
+            color = color + colorpt_total / 1;
             color.max_to_one();
         }
     }
